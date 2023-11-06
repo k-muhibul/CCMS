@@ -1,0 +1,51 @@
+﻿@model List<Child_Care_Mangement_System.Models.Shift>
+@{
+    ViewData["Title"] = "ViewShift";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h1> Upcoming Shifts</h1>
+
+    <table id="Shifts" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>Available From</th>
+                <th>Available To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.ShiftDate.Date.ToLongDateString()
+                    </td>
+                    <td>
+                        @item.From.TimeOfDay
+                    </td>
+                    <td>
+                        @item.To.TimeOfDay
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#AvailableCarers').DataTable();
+        });
+
+
+
+    </script>
+

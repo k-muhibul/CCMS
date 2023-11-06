@@ -1,0 +1,43 @@
+﻿@model Child_Care_Mangement_System.Models.ChildHealthLog
+
+@{
+    ViewData["Title"] = "AddHealthLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Enter Health Log</h1>
+
+<hr />  
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddHealthLog">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Height" class="control-label">Height (in cm)</label>
+                    <input asp-for="Height" class="form-control" />
+                    <span asp-validation-for="Height" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Weight" class="control-label">Weight (kg)</label>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="ChildId" value="@ViewBag.ChildId" />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    </div>

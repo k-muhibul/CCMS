@@ -1,0 +1,44 @@
+﻿@model Child_Care_Mangement_System.Models.Diet
+
+@{
+    ViewData["Title"] = "EditDiet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Edit Diet</h4>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EditDiet">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="DietId" />
+                <input type="hidden" asp-for="ChildId" value="@Model.ChildId" />
+                <div class="form-group">
+                    <label asp-for="CalorieRequirement" class="control-label"></label>
+                    <input asp-for="CalorieRequirement" class="form-control" />
+                    <span asp-validation-for="CalorieRequirement" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WeekDay" class="control-label"></label>
+                    <select asp-for="WeekDay" class="form-control" asp-items="@ViewBag.WeekDayId"></select>
+                    <span asp-validation-for="WeekDay" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MealId" class="control-label"></label>
+                    <select asp-for="MealId" class="form-control" asp-items="@ViewBag.MealId"></select>
+                    <span asp-validation-for="MealId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+    </div>
+

@@ -1,0 +1,30 @@
+﻿@model Child_Care_Mangement_System.Models.ChildMealLog
+
+@{
+    ViewData["Title"] = "MealEntry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h1>Meal Entry</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="MealEntry">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ChildId" value="@ViewBag.ChildId" />
+                <div class="form-group">
+                    <label asp-for="MealId" class="control-label"></label>
+                    <select asp-for="MealId" class="form-control" asp-items="ViewBag.MealId"></select>
+                </div>
+                <input type="hidden" asp-for="Date" value="@DateTime.Now" />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+    </div>

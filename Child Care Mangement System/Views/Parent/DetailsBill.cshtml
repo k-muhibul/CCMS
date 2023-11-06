@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Child_Care_Mangement_System.Models.ChildClockHistory>
+
+@{
+    ViewData["Title"] = "DetailsBill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h1>Bill Breakdown</h1>
+
+    <table id="billBreak" class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClockIn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClockOut)
+                </th>
+                <th>
+                    Hours
+                </th>
+                <th>
+                    Charge
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Date.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @item.ClockIn.ToString("HH:mm")
+                    </td>
+                    <td>
+                        @(item.ClockOut.HasValue ? item.ClockOut.Value.ToString("HH:mm") : "N/A")
+                    </td>
+                    <td>
+                        @{
+                            double hoursWorked = 0.0;
+                            double totalDue = 0.0;
+                            if (item.ClockOut.HasValue)
+                            {
+                                TimeSpan timeDifference = item.ClockOut.Value - item.ClockIn;
+                                hoursWorked = timeDifference.TotalHours;
+                                totalDue += hoursWorked * item.Bill.Price;
+                            }
+
+                        }
+                        @hoursWorked.ToString("0.00")
+                    </td>
+                    <td>
+                        @totalDue.ToString("0.00")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#billBreak').DataTable();
+        });
+    </script>

@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model Child_Care_Mangement_System.Models.Child
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var dietList = Model.Diets;
+}
+<div class="container">
+    <div class="my-4 container">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title">Eat-Well Guide</h5>
+                    </div>
+                    <div class="card-body">
+                        <img src="/img/eatwell-plate-for-kids.png" alt="Descriptive Text" class="img-fluid">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title">Recommended Calorie Goal</h5>
+                    </div>
+                    <div class="card-body">
+                        <h2>@ViewBag.recommendedCalorie/Day</h2>
+                    </div>
+                    <div class="card-footer text-muted">
+                        ** This result is an estimation and should not replace professional advice.
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <a class="btn btn-primary my-2" asp-action="AddDiet" asp-route-id="@Model.ChildId">Add Diet Item</a>
+
+        <table id="DietList" class="table my-4">
+            <thead>
+                <tr>
+                    <th>
+                        Day
+                    </th>
+                    <th>
+                        Meal Type
+                    </th>
+
+                    <th>
+                        Item
+                    </th>
+                    <th>
+                        Calorie Req
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in dietList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WeekDay)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Meal.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Meal.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CalorieRequirement)
+                        </td>
+
+                        <td>
+
+                            <a asp-action="EditDiet" asp-route-id="@item.DietId">Edit</a> |
+                            <a asp-action="DeleteDiet" asp-route-id="@item.DietId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#DietList').DataTable();
+        });
+    </script>

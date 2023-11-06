@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "ParentDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    User parent = await UserManager.GetUserAsync(User);
+
+}
+<div class="container my-4">
+    <h1>Dashboard</h1>
+    <p>
+        <a class="btn btn-primary" asp-action="AddChild">Add Child</a>
+    </p>
+
+    <table id="ChildList" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Date of Birth
+                </th>
+                <th>
+                    Category
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in parent.Children)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChildId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @item.DOB.ToString("d")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CareCategory.Description)
+                    </td>
+                    <td>
+                        <a class="links" id="clockOutbtn" onclick="clockOut(@item.ChildId)">Clock Out</a> |
+                        <a class="link-primary" asp-action="EditChild" asp-route-id="@item.ChildId">Edit</a> |
+                        <a class="link-primary" asp-action="DetailsChild" asp-route-id="@item.ChildId">Details</a> |
+                        <a class="link-primary" asp-action="DeleteChild" asp-route-id="@item.ChildId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    <script>
+        $(document).ready(function () {
+            $('#ChildList').DataTable();
+        });
+        function clockOut(childId) {
+            console.log("Here")
+
+            console.log(childId)
+            $.ajax({
+                url: "/Parent/ClockOutChild",
+                type: "POST",
+                data: { ChildId: childId },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if (response.success == true) {
+                        alertify.success(response.message);
+                    }
+                    else {
+                        alertify.error(response.message)
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+        }
+
+    </script>
+
+

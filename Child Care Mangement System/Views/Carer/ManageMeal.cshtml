@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model IEnumerable<Child_Care_Mangement_System.Models.Meal>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container">
+    <a class="btn btn-primary" asp-action="AddMeal">Add Meal</a>
+
+    <table id="MealList" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Meal Type
+                </th>
+                <th>Eat Well Category</th>
+                <th>
+                    Carbs(g)
+                </th>
+                <th>
+                    Proteing(g)
+                </th>
+                <th>
+                    Fat(g)
+                </th>
+                <th>
+                    Sugar(g)
+                </th>
+                <th>Calories</th>
+                <th>Serving Size</th>
+
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EatWellCategory.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Carbs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Protein)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sugar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Calorie)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServingSize)
+                    </td>
+                    <td>
+
+                        <a asp-action="EditMeal" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="DeleteMeal" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#MealList').DataTable();
+        });
+    </script>

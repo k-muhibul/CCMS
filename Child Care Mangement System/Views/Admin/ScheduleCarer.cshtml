@@ -1,0 +1,123 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model  Child_Care_Mangement_System.Models.Shift
+@{
+    List<SetAvilability> availableCarer = ViewBag.availableCarer;
+    DateTime selectedDate = @ViewBag.selectedDate??System.DateTime.Now;
+}
+<div class="container">
+    Select Date:
+    <input type="date" value="@selectedDate.ToString("yyyy-MM-dd")" id="selectedDate" onchange="getAvailableCarer()" />
+    <div class="row my-4">
+        <div class="col-md-4">
+            <form asp-action="CreateSchedule">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ShiftDate" value="@selectedDate" />
+                <div class="form-group">
+                    <label asp-for="CarerId" class="control-label">Select Carer :</label>
+                    <select asp-for="CarerId" class="form-control" asp-items="ViewBag.carerLookup"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="From" class="control-label"></label>
+                    <input type="time" asp-for="From" class="form-control" />
+                    <span asp-validation-for="From" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="To" class="control-label"></label>
+                    <input type="time" asp-for="To" class="form-control" />
+                    <span asp-validation-for="To" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <h4 class="my-4">Available Carer That Day</h4>
+
+    @if (availableCarer != null)
+    {
+
+
+        <table id="AvailableCarers" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>Available From</th>
+                    <th>Available To</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in availableCarer)
+                {
+                    <tr>
+                        <td>
+                            @item.CarerId
+                        </td>
+                        <td>
+                            @item.Carer.FirstName
+                        </td>
+                        <td>
+                            @item.Carer.LastName
+                        </td>
+                        <td>
+                            @item.From.TimeOfDay
+                        </td>
+                        <td>
+                            @item.To.TimeOfDay
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    }
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#AvailableCarers').DataTable();
+        });
+
+        function getAvailableCarer() {
+            var date = $("#selectedDate").val();
+            window.location = `/Admin/ScheduleCarer/${date}`
+        }
+        function scheduleCarer(carerId) {
+            console.log(carerId)
+            //var shift = { CarerId: carerId, ShiftDate=$("#selectedDate").val(),From}
+
+            //$.ajax({
+            //    url: "/Admin/CreateShift",
+            //    type: "POST",
+            //    data: { CarerId: carerId,Shift },
+            //    dataType: "json",
+            //    success: function (response) {
+            //        console.log(response)
+            //        if (response.success == true) {
+            //            alertify.success(response.message);
+            //        }
+            //        else {
+            //            alertify.error(response.message)
+            //        }
+            //    },
+            //    error: function (error) {
+            //        console.error("Error:", error);
+            //    }
+            //});
+        }
+    </script>
+

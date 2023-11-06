@@ -1,0 +1,111 @@
+﻿@model List<Child_Care_Mangement_System.Models.Bill>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+   
+}
+
+<div class="container my-4">
+    <h4 class="my-2">Bill List</h4>
+    <table id="BillList" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Generation Date
+                </th>
+                <th>
+                    Child Name
+                </th>
+
+                <th>
+                    Due Amount
+                </th>
+                <th>
+                    Status
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BillId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Child.FirstName)
+                    </td>
+                    <td>
+                        @{
+                            double totalDue = 0.0;
+                            foreach (var clockHistory in item.ChildClockHistories)
+                            {
+                                if (clockHistory.ClockOut.HasValue)
+                                {
+                                    TimeSpan timeDifference = clockHistory.ClockOut.Value - clockHistory.ClockIn;
+                                    double hoursWorked = timeDifference.TotalHours;
+                                    totalDue += hoursWorked * item.Price;
+                                }
+                            }
+                        }
+                        @totalDue.ToString("0.00")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+                    <td>
+                        <a asp-action="DetailsBill" asp-route-id="@item.BillId">Details</a> 
+                        @if (item.Status == Child_Care_Mangement_System.Data.Enumeration.BillStatus.Due)
+                        {   
+                            <form method="post" asp-action="CreateCheckoutSession" asp-route-id="@totalDue">
+                                <input type="hidden" name="amount" value="@totalDue" />
+                                <input type="hidden" name="userId" value="@item.UserId" />
+                                <input type="hidden" name="billId" value="@item.BillId" />
+                                <button class="btn btn-primary" type="submit">Pay</button>
+                            </form>
+
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            $('#BillList').DataTable();
+        });
+        function checkOut(amount, userId, billId) {
+            $.ajax({
+                url: "/Parent/CreateCheckoutSession",
+                type: "POST",
+                data: { amount: amount, userId: userId, billId: billId },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if (response.success == true) {
+                        alertify.success(response.message);
+                    }
+                    else {
+                        alertify.error(response.message)
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+        }
+    </script>

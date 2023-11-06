@@ -1,0 +1,42 @@
+﻿@model Child_Care_Mangement_System.Models.Diet
+
+@{
+    ViewData["Title"] = "AddDiet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h1>Add Diet</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddDiet">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ChildId" value="@ViewBag.ChildId" />
+
+                <div class="form-group">
+                    <label asp-for="CalorieRequirement" class="control-label"></label>
+                    <input asp-for="CalorieRequirement" class="form-control" />
+                    <span asp-validation-for="CalorieRequirement" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WeekDay" class="control-label"></label>
+                    <select asp-for="WeekDay" asp-items="ViewBag.WeekDayId" class="form-control"></select>
+                    <span asp-validation-for="WeekDay" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MealId" class="control-label"></label>
+                    <select asp-for="MealId" class="form-control" asp-items="ViewBag.MealId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+

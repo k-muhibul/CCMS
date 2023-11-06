@@ -1,0 +1,77 @@
+# Directories #
+################
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# Files #
+#########
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+*.userosscache
+*.sln.docstates
+*.csproj.user
+*.vbproj.user
+*.vspscc
+*.vssscc
+*.tmp_proj
+*.pidb
+*.service
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Web publish script output files #
+###################################
+*.Publish.xml
+*.pubxml
+*.pubxml.user
+
+# NuGet Packages #
+##################
+**/[Pp]ackages/*
+**/*.nupkg
+!**/*.nupkg.metadata
+!**/packages/build/
+package-lock.json
+project.assets.json
+project.lock.json
+
+# Visual Studio files #
+#######################
+.vs/
+*.njsproj
+*.swp
+*.*proj
+*.*proj.user
+*.*proj.bak
+*.*proj.tmp
+*.*proj.vspscc
+*.*proj.semaproj
+*.*proj.node
+*.*proj.csproj
+*.*proj.vspscc
+*.*proj.user
+*.*proj.server
+*.*proj.cache
+*.*proj.vbproj
+*.*proj.vbproj.vspscc
+
+# Rider files #
+###############
+.idea/
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
